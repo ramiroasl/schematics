@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "description": "Proxy a module for lazy loading.",
+  "id": "lazy-loading-proxy",
+  "properties": {
+    "entryModule": {
+      "default": "app",
+      "description": "Entry module where the <hero-loader> component will be injected. Default: \"app\"",
+      "type": "string"
+    },
+    "lazyModule": {
+      "description": "Name of the module to be proxied for lazy loading.",
+      "type": "string"
+    },
+    "project": {
+      "description": "Generate in a specific Angular CLI workspace project.",
+      "type": "string"
+    },
+    "root": {
+      "description": "Path prefix to the project files.",
+      "type": "string",
+      "default": ""
+    },
+    "skipImport": {
+      "description": "Skip automatic imports.",
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "title": "Lazy loading proxy"
+}

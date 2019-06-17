@@ -1,0 +1,10 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "lazy-loading-proxy": {
+      "description": "Proxy a module for lazy loading.",
+      "factory": "./lazy-loading-proxy/index#lazyLoadingProxy",
+      "schema": "./lazy-loading-proxy/schema.json"
+    }
+  }
+}

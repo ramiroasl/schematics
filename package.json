@@ -1,0 +1,39 @@
+{
+  "name": "@pandevmonium/schematics",
+  "version": "0.1.2",
+  "description": "ramiroasl schematics collection.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "npm run build -- --watch",
+    "test": "npm run build && jasmine src/**/*_spec.js"
+  },
+  "keywords": [
+    "schematics",
+    "lazy loading"
+  ],
+  "author": "Ramiro Sanchez",
+  "email": "ramiroasl89@gmail.com",
+  "homepage": "https://github.com/ramiroasl/schematics",
+  "url": "https://github.com/ramiroasl/schematics/issues",
+  "repository": "github:https://github.com/ramiroasl/schematics",
+  "license": "MIT",
+  "schematics": "./src/collection.json",
+  "dependencies": {
+    "@angular-devkit/core": "^8.1.1",
+    "@angular-devkit/schematics": "^8.1.1",
+    "@schematics/angular": "^8.1.1",
+    "@types/jasmine": "^3.0.0",
+    "@types/jsdom": "^12.2.4",
+    "@types/node": "^8.0.31",
+    "jasmine": "^3.0.0",
+    "jsdom": "^15.1.1",
+    "ramda": "^0.26.1",
+    "typescript": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.26.16",
+    "rxjs-tslint-rules": "^4.24.3",
+    "tslint": "^5.18.0",
+    "tslint-config-ryanair": "^1.0.0"
+  }
+}
