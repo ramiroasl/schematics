@@ -42,7 +42,7 @@ export function lazyLoadingProxy(options: Schema): Rule {
 }
 
 function createProxyModule(options: Schema): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree): Rule => {
     // Get all templates into a variable
     const sourceTemplates = url('./templates');
     // Parse the templates
@@ -56,18 +56,21 @@ function createProxyModule(options: Schema): Rule {
       move(getModulePath(options, tree))
     ]);
 
+    // Return a Rule to merge with other Rules
     return mergeWith(sourceParametrizedTemplates);
   };
 }
 
 function updateProjectConfiguration(options: Schema): Rule {
-  return async (tree: Tree) => {
+  return async (tree: Tree): Promise<Rule> => {
+    // Get workspace (angular.json) through utility functions
     const workspace = await getWorkspace(tree);
     const project = workspace.projects.get(options.project);
     if (!project) {
       throw new SchematicsException(`Invalid project name (${options.project}).`);
     }
 
+    // Access inner keys
     const buildTarget = project.targets.get('build');
     if (!buildTarget) {
       throw targetBuildNotFoundError();
@@ -83,6 +86,7 @@ function updateProjectConfiguration(options: Schema): Rule {
       throw new SchematicsException('LazyModules entry seems to be present already.');
     }
 
+    // Complete with our lazyModule
     buildTarget.options = {
       ...buildTarget.options,
       lazyModules: [
@@ -96,13 +100,15 @@ function updateProjectConfiguration(options: Schema): Rule {
 }
 
 function addPackageDependency(_options: Schema): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree): Tree => {
+    // Create new dependency
     const heroLoaderDependency = {
       type: NodeDependencyType.Dev,
       name: '@herodevs/hero-loader',
       version: '2.0.1'
     };
 
+    // Add it to package.json through utility functions
     addPackageJsonDependency(tree, heroLoaderDependency);
 
     return tree;
@@ -110,7 +116,8 @@ function addPackageDependency(_options: Schema): Rule {
 }
 
 function addStaticImport(options: Schema): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree): Tree => {
+    // Find entry module path through utility functions
     const entryModulePath = findModuleFromOptions(tree, {
       name: options.entryModule,
       module: options.entryModule,
@@ -122,7 +129,11 @@ function addStaticImport(options: Schema): Rule {
     }
 
     const entryModuleSource = getSourceFile(tree, entryModulePath);
+    if (!entryModuleSource) {
+      throw new SchematicsException(`Could not find entry module ${options.entryModule}.`);
+    }
 
+    // Insert import changes
     doChanges(
       tree,
       addImportToModule(
@@ -139,7 +150,8 @@ function addStaticImport(options: Schema): Rule {
 }
 
 function addTemplateLoader(options: Schema): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree): Tree => {
+    // Find entry component path through utility functions
     const entryComponentPath = findModuleFromOptions(tree, {
       name: options.entryModule,
       path: getModulePath(options, tree),
@@ -155,9 +167,9 @@ function addTemplateLoader(options: Schema): Rule {
       throw new SchematicsException(`Could not find entry component ${options.entryModule}.`);
     }
 
+    // Add HTML entry through tree overwrite
     const lazyLoadedModulePath = getProxyModulePath(options, tree);
     const newContent = `\n<hero-loader moduleName="${lazyLoadedModulePath}"></hero-loader>`;
-
     tree.overwrite(entryComponentPath, `${entryComponentContent.toString()}${newContent}`);
 
     return tree;
