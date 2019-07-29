@@ -3,29 +3,34 @@
   "description": "Proxy a module for lazy loading.",
   "id": "lazy-loading-proxy",
   "properties": {
-    "entryModule": {
-      "default": "app",
-      "description": "Entry module where the <hero-loader> component will be injected. Default: \"app\"",
-      "type": "string"
-    },
     "lazyModule": {
       "description": "Name of the module to be proxied for lazy loading.",
-      "type": "string"
+      "type": "string",
+      "x-prompt": "Lazy module name:"
     },
     "project": {
       "description": "Generate in a specific Angular CLI workspace project.",
-      "type": "string"
+      "type": "string",
+      "x-prompt": "Project name:"
+    },
+    "entryModule": {
+      "description": "Entry module where the <hero-loader> component will be injected. Default: \"app\"",
+      "type": "string",
+      "default": "app",
+      "x-prompt": "Entry module name:"
     },
     "root": {
-      "description": "Path prefix to the project files.",
+      "description": "Path prefix to the project files",
       "type": "string",
-      "default": ""
+      "x-prompt": "Additional root path:"
     },
     "skipImport": {
-      "description": "Skip automatic imports.",
-      "type": "boolean"
+      "description": "Skip automatic imports. Default: \"false\"",
+      "type": "boolean",
+      "default": false,
+      "x-prompt": "Skip importing HeroLoaderModule?"
     }
   },
-  "required": [],
+  "required": ["lazyModule", "project"],
   "title": "Lazy loading proxy"
 }

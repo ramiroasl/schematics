@@ -25,7 +25,7 @@ export const getModulePath = (options: Schema, tree: Tree): string => {
   const project = getProject(tree, options.project);
   const projectRoot = project.sourceRoot ? project.sourceRoot : project.root;
 
-  return `${projectRoot}/${options.root}`;
+  return `${projectRoot}${options.root}`;
 };
 
 export const getProxyModulePath = (options: Schema, tree: Tree): string => {
@@ -37,7 +37,7 @@ export const getProxyModulePath = (options: Schema, tree: Tree): string => {
   return [
     projectPath,
     `+proxy-${dasherizedLazyModule}`,
-    `+proxy-${dasherizedLazyModule}.module.ts#Proxy${classifiedLazyModule}Module`
+    `proxy-${dasherizedLazyModule}.module.ts#Proxy${classifiedLazyModule}Module`
   ].join('/');
 };
 
