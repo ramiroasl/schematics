@@ -31,6 +31,7 @@ import {
 
 export function lazyLoadingProxy(options: Schema): Rule {
   return async (_tree: Tree, _context: SchematicContext) => {
+    // Good practice to use Rule chaining
     return chain([
       createProxyModule(options),
       updateProjectConfiguration(options),
