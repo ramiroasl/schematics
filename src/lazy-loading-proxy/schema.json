@@ -28,7 +28,13 @@
       "description": "Skip automatic imports. Default: \"false\"",
       "type": "boolean",
       "default": false,
-      "x-prompt": "Skip importing HeroLoaderModule?"
+      "x-prompt": "Skip importing packages?"
+    },
+    "skipInstall": {
+      "description": "Skip package install. Default: \"false\"",
+      "type": "boolean",
+      "default": false,
+      "x-prompt": "Skip installing packages?"
     }
   },
   "required": ["lazyModule", "project"],

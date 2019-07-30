@@ -11,6 +11,7 @@ import {
   Tree,
   url
 } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { addImportToModule } from '@schematics/angular/utility/ast-utils';
 import {
   addPackageJsonDependency,
@@ -100,8 +101,8 @@ function updateProjectConfiguration(options: Schema): Rule {
   };
 }
 
-function addPackageDependency(_options: Schema): Rule {
-  return (tree: Tree): Tree => {
+function addPackageDependency(options: Schema): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
     // Create new dependency
     const heroLoaderDependency = {
       type: NodeDependencyType.Dev,
@@ -111,6 +112,10 @@ function addPackageDependency(_options: Schema): Rule {
 
     // Add it to package.json through utility functions
     addPackageJsonDependency(tree, heroLoaderDependency);
+
+    if (!options.skipInstall) {
+      context.addTask(new NodePackageInstallTask());
+    }
 
     return tree;
   };

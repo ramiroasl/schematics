@@ -4,4 +4,5 @@ export interface Schema {
   project: string;
   root: string;
   skipImport: boolean;
+  skipInstall: boolean;
 }
